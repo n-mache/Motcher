@@ -6,6 +6,15 @@ import { config } from 'dotenv';
 config();
 
 export async function onInteractionCreate(interaction: BaseInteraction): Promise<Awaitable<void>> {
+	if (interaction.isAutocomplete()) {
+		switch (interaction.commandName) {
+			case 'resdelete':
+				interactions.responseComplete(interaction);
+				break;
+			default:
+				break;
+		}
+	}
 	if (interaction.isButton()) {
 		switch (interaction.customId) {
 			case 'createticket':

@@ -36,6 +36,7 @@ import { timeoutCommand } from './timeout';
 import { untimeoutCommand } from './untimeout';
 import { userCommand } from './user';
 import { yesCommand } from './yes';
+import { responseComplete } from './response_complete';
 
 export const interactions = {
 	help: helpCommand,
@@ -75,5 +76,6 @@ export const interactions = {
 	createticket: createticketCommand,
 	closeticket: closeticketCommand,
 	yes: yesCommand,
-	no: noCommand
+	no: noCommand,
+	responseComplete: responseComplete,
 };
