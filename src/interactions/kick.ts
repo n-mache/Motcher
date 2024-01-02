@@ -3,8 +3,6 @@ import { PermissionsBitField, ChatInputCommandInteraction, GuildMember } from 'd
 
 export async function kickCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.KickMembers))
-		return interaction.reply('コマンドを使用する権限がありません。');
 	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.KickMembers))
 		return interaction.reply(embeds.kickPermissionError);
 	const member = interaction.options.getMember('member') as GuildMember;

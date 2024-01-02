@@ -1,13 +1,11 @@
 import { ServerResponseData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { PermissionsBitField, ChatInputCommandInteraction, Guild, GuildMember } from 'discord.js';
+import { ChatInputCommandInteraction, Guild, GuildMember } from 'discord.js';
 import { writeFile } from 'fs';
 import { readFileSync } from 'fs';
 
 export async function resdeleteCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.ManageMessages))
-		return interaction.reply('貴方にはこのコマンドを使用する権限がありません。');
 	const keyword = interaction.options.getString('keyword') as string;
 	const guild = interaction.guild as Guild;
 	const serverId = guild.id;

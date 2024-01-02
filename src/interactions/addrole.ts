@@ -3,8 +3,6 @@ import { ChatInputCommandInteraction, GuildMember, PermissionsBitField, Role } f
 
 export async function addroleCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.ManageRoles))
-		return interaction.reply(embeds.PermissionError);
 	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.ManageRoles))
 		return interaction.reply(embeds.roleAddPermissionError);
 	const role = interaction.options.getRole('role') as Role;

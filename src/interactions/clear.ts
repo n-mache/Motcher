@@ -9,8 +9,6 @@ import {
 
 export async function clearCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.ManageMessages))
-		return interaction.reply(embeds.PermissionError);
 	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.ManageMessages))
 		return interaction.reply(embeds.clearPermissionError);
 	const member = interaction.options.getMember('member') as GuildMember;

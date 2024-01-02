@@ -9,8 +9,6 @@ import {
 
 export async function inviteCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.CreateInstantInvite))
-		return interaction.reply(embeds.PermissionError);
 	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.CreateInstantInvite))
 		return interaction.reply(embeds.invitePermissionError);
 	const channel = interaction.channel as TextBasedChannel;

@@ -1,12 +1,10 @@
 import { ServerMemberData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { Guild, ChatInputCommandInteraction, PermissionsBitField, GuildMember } from 'discord.js';
+import { Guild, ChatInputCommandInteraction, GuildMember } from 'discord.js';
 import { readFileSync, writeFile } from 'fs';
 
 export async function memberlogstopCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.ManageChannels))
-		return interaction.reply(embeds.PermissionError);
 	const guild = interaction.guild as Guild;
 	const serverId = guild.id;
 	const rawData = readFileSync('./database/memberlogs.json', 'utf-8');

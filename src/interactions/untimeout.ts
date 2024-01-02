@@ -3,8 +3,6 @@ import { PermissionsBitField, ChatInputCommandInteraction, GuildMember } from 'd
 
 export async function untimeoutCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.ModerateMembers))
-		return interaction.reply('このコマンドを使用する権限がありません');
 	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.ModerateMembers))
 		return interaction.reply(embeds.timeoutPermissionError);
 	const member = interaction.options.getMember('member') as GuildMember;

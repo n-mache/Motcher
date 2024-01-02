@@ -1,12 +1,10 @@
 import { ServerJoinData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { Guild, ChatInputCommandInteraction, PermissionsBitField, GuildMember, TextBasedChannel } from 'discord.js';
+import { Guild, ChatInputCommandInteraction, GuildMember, TextBasedChannel } from 'discord.js';
 import { writeFile, readFileSync } from 'fs';
 
 export async function joinmsgCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.Administrator))
-		return interaction.reply(embeds.PermissionError);
 	const detail = interaction.options.getString('detail');
 	const channel = interaction.channel as TextBasedChannel;
 	const guild = interaction.guild as Guild;
