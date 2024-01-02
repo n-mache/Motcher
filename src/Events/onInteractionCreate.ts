@@ -97,9 +97,6 @@ export async function onInteractionCreate(interaction: BaseInteraction): Promise
 		case 'ping':
 			interactions.ping(interaction);
 			break;
-		case 'restart':
-			interactions.restart(interaction);
-			break;
 		case 'remrole':
 			interactions.remrole(interaction);
 			break;

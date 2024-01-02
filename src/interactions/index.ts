@@ -27,7 +27,6 @@ import { remroleCommand } from './remrole';
 import { resdeleteCommand } from './resdelete';
 import { resnowCommand } from './resnow';
 import { responseCommand } from './response';
-import { restartCommand } from './restart';
 import { rolelogCommand } from './rolelog';
 import { rolelogstopCommand } from './rolelogstop';
 import { searchCommand } from './search';
@@ -65,7 +64,6 @@ export const interactions = {
 	resdelete: resdeleteCommand,
 	resnow: resnowCommand,
 	response: responseCommand,
-	restart: restartCommand,
 	rolelog: rolelogCommand,
 	rolelogstop: rolelogstopCommand,
 	search: searchCommand,
