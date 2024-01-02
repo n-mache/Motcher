@@ -96,7 +96,7 @@ const commands = [
 	new SlashCommandBuilder()
 		.setName('resdelete')
 		.setDescription('レスポンスを削除します')
-		.addStringOption((option) => option.setName('keyword').setDescription('削除するレスポンス').setRequired(true))
+		.addStringOption((option) => option.setName('keyword').setDescription('削除するレスポンス').setRequired(true).setAutocomplete(true))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
 	new SlashCommandBuilder().setName('resnow').setDescription('レスポンスを表示します'),
 	new SlashCommandBuilder()
