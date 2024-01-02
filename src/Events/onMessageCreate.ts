@@ -1,7 +1,9 @@
+import { ServerResponseData } from '../Utils/ServerData';
 import { commands } from '../commands';
 import { bannedUsers, bannedServers } from '../index';
 import { Message, PermissionsBitField, Awaitable, GuildTextBasedChannel } from 'discord.js';
 import { config } from 'dotenv';
+import { readFileSync } from 'fs';
 
 config();
 
@@ -34,7 +36,6 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		return;
 	}
 	if (
-		!message.content.startsWith(prefix) ||
 		message.author.bot ||
 		message.guild?.members.me?.communicationDisabledUntil !== null ||
 		!message.guild.members.me
@@ -43,6 +44,18 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		bannedServers.includes(message.guild.id)
 	)
 		return;
+	const rawData = readFileSync('./database/responses.json', 'utf-8');
+	const data: Record<string, ServerResponseData> = JSON.parse(rawData);
+	const serverData = data[message.guild.id];
+	if (serverData) {
+		for (const keyword in serverData) {
+			if (message.content.includes(keyword)) {
+				const response = serverData[keyword];
+				message.channel.send(response);
+			}
+		}
+	}
+	if (!message.content.startsWith(prefix)) return;
 	const args = message.content.slice(prefix.length).trim().split(/ +/) as string[];
 	const commandName = args.shift()?.toLowerCase();
 	switch (commandName) {
