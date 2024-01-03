@@ -6,12 +6,6 @@ config();
 const commands = [
 	new SlashCommandBuilder().setName('about').setDescription('このBotについて'),
 	new SlashCommandBuilder()
-		.setName('addrole')
-		.setDescription('ロールを付与します')
-		.addRoleOption((option) => option.setName('role').setDescription('付与するロール').setRequired(true))
-		.addUserOption((option) => option.setName('member').setDescription('ロールを付与するメンバー').setRequired(true))
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles),
-	new SlashCommandBuilder()
 		.setName('avatar')
 		.setDescription('ユーザーのアバターを表示します')
 		.addUserOption((option) => option.setName('user').setDescription('アバターを表示するユーザー')),
@@ -33,13 +27,50 @@ const commands = [
 		.addIntegerOption((option) => option.setName('amount').setDescription('削除するメッセージの数').setRequired(true))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
 	new SlashCommandBuilder()
-		.setName('deletejoin')
-		.setDescription('入室メッセージを削除します')
+		.setName('join')
+		.setDescription('入室メッセージの設定')
+		.addSubcommand((subcommand) =>
+			subcommand
+				.setName('message')
+				.setDescription('入室メッセージを設定します')
+				.addStringOption((option) => option.setName('message').setDescription('設定するメッセージ').setRequired(true))
+		)
+		.addSubcommand((subcommand) => subcommand.setName('remove').setDescription('入室メッセージを削除します'))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 	new SlashCommandBuilder()
-		.setName('deleteleave')
-		.setDescription('退室メッセージを削除します')
+		.setName('leave')
+		.setDescription('退室メッセージの設定')
+		.addSubcommand((subcommand) =>
+			subcommand
+				.setName('message')
+				.setDescription('退室メッセージを設定します')
+				.addStringOption((option) => option.setName('message').setDescription('設定するメッセージ').setRequired(true))
+		)
+		.addSubcommand((subcommand) => subcommand.setName('remove').setDescription('退室メッセージを削除します'))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
+	new SlashCommandBuilder()
+		.setName('log')
+		.setDescription('ログの設定を行います')
+		.addSubcommand((subcommand) => subcommand.setName('member').setDescription('メンバーログの設定を行います'))
+		.addSubcommand((subcommand) => subcommand.setName('message').setDescription('メッセージログの設定を行います'))
+		.addSubcommand((subcommand) => subcommand.setName('role').setDescription('ロールログの設定を行います'))
+		.addSubcommand((subcommand) =>
+			subcommand
+				.setName('stop')
+				.setDescription('ログの設定を削除します')
+				.addStringOption((option) =>
+					option
+						.setName('type')
+						.setDescription('削除するログの種類')
+						.addChoices(
+							{ name: 'member', value: 'member' },
+							{ name: 'message', value: 'message' },
+							{ name: 'role', value: 'role' }
+						)
+						.setRequired(true)
+				)
+		)
+		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageChannels),
 	new SlashCommandBuilder().setName('help').setDescription('ヘルプを表示します'),
 	new SlashCommandBuilder().setName('inlist').setDescription('管理者限定コマンド'),
 	new SlashCommandBuilder()
@@ -47,20 +78,10 @@ const commands = [
 		.setDescription('サーバーのの招待リンクを表示します')
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.CreateInstantInvite),
 	new SlashCommandBuilder()
-		.setName('joinmsg')
-		.setDescription('入室メッセージを設定します')
-		.addStringOption((option) => option.setName('detail').setDescription('入室メッセージ').setRequired(true))
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
-	new SlashCommandBuilder()
 		.setName('kick')
 		.setDescription('ユーザーをキックします')
 		.addUserOption((option) => option.setName('member').setDescription('キックするユーザー').setRequired(true))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.KickMembers),
-	new SlashCommandBuilder()
-		.setName('leavemsg')
-		.setDescription('退室メッセージを設定します')
-		.addStringOption((option) => option.setName('detail').setDescription('退室メッセージ').setRequired(true))
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 	new SlashCommandBuilder()
 		.setName('mcskin')
 		.setDescription('Minecraftのスキンを表示します')
@@ -70,41 +91,52 @@ const commands = [
 		.setDescription('Minecraftサーバーのステータスを表示します')
 		.addStringOption((option) => option.setName('address').setDescription('サーバーアドレス').setRequired(true))
 		.addIntegerOption((option) => option.setName('port').setDescription('ポート番号').setRequired(false)),
-	new SlashCommandBuilder()
-		.setName('memberlog')
-		.setDescription('メンバーログを設定します')
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageChannels),
-	new SlashCommandBuilder()
-		.setName('memberlogstop')
-		.setDescription('メンバーログを停止します')
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageChannels),
-	new SlashCommandBuilder()
-		.setName('msglog')
-		.setDescription('メッセージログを設定します')
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageChannels),
-	new SlashCommandBuilder()
-		.setName('msglogstop')
-		.setDescription('メッセージログを停止します')
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageChannels),
 	new SlashCommandBuilder().setName('ping').setDescription('BotのPingを表示します'),
-	new SlashCommandBuilder()
-		.setName('remrole')
-		.setDescription('ロールを剥奪します')
-		.addRoleOption((option) => option.setName('role').setDescription('剥奪するロール').setRequired(true))
-		.addUserOption((option) => option.setName('member').setDescription('ロールを剥奪するメンバー').setRequired(true))
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles),
-	new SlashCommandBuilder()
-		.setName('resdelete')
-		.setDescription('レスポンスを削除します')
-		.addStringOption((option) => option.setName('keyword').setDescription('削除するレスポンス').setRequired(true).setAutocomplete(true))
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
 	new SlashCommandBuilder().setName('resnow').setDescription('レスポンスを表示します'),
 	new SlashCommandBuilder()
 		.setName('response')
 		.setDescription('レスポンスを設定します')
-		.addStringOption((option) => option.setName('keyword').setDescription('レスポンスのキーワード').setRequired(true))
-		.addStringOption((option) => option.setName('response').setDescription('レスポンス').setRequired(true))
+		.addSubcommand((subcommand) =>
+			subcommand
+				.setName('add')
+				.setDescription('レスポンスを追加します')
+				.addStringOption((option) =>
+					option.setName('keyword').setDescription('レスポンスのキーワード').setRequired(true)
+				)
+				.addStringOption((option) => option.setName('response').setDescription('レスポンス').setRequired(true))
+		)
+		.addSubcommand((subcommand) =>
+			subcommand
+				.setName('remove')
+				.setDescription('レスポンスを削除します')
+				.addStringOption((option) =>
+					option.setName('keyword').setDescription('レスポンスのキーワード').setRequired(true)
+				)
+		)
+		.addSubcommand((subcommand) => subcommand.setName('list').setDescription('レスポンスの一覧を表示します'))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
+	new SlashCommandBuilder()
+		.setName('role')
+		.setDescription('ロールの設定を行います')
+		.addSubcommand((subcommand) =>
+			subcommand
+				.setName('add')
+				.setDescription('ロールを追加します')
+				.addRoleOption((option) => option.setName('role').setDescription('追加するロール').setRequired(true))
+				.addUserOption((option) =>
+					option.setName('member').setDescription('ロールを追加するメンバー').setRequired(true)
+				)
+		)
+		.addSubcommand((subcommand) =>
+			subcommand
+				.setName('remove')
+				.setDescription('ロールを削除します')
+				.addRoleOption((option) => option.setName('role').setDescription('削除するロール').setRequired(true))
+				.addUserOption((option) =>
+					option.setName('member').setDescription('ロールを削除するメンバー').setRequired(true)
+				)
+		)
+		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles),
 	new SlashCommandBuilder()
 		.setName('search')
 		.setDescription('Googleで検索します')

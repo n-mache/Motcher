@@ -7,7 +7,7 @@ import { readFileSync } from 'fs';
 
 config();
 
-const prefix = 'mc!';
+const prefix = 'mt!';
 
 export async function onMessageCreate(message: Message): Promise<Awaitable<void>> {
 	if (bannedUsers.includes(message.author.id)) return;
@@ -62,9 +62,6 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		case 'about':
 			commands.about(message);
 			break;
-		case 'addrole':
-			commands.addrole(message);
-			break;
 		case 'avatar':
 			commands.avatar(message);
 			break;
@@ -80,12 +77,6 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		case 'clear':
 			commands.clear(message);
 			break;
-		case 'deletejoin':
-			commands.deletejoin(message);
-			break;
-		case 'deleteleave':
-			commands.deleteleave(message);
-			break;
 		case 'help':
 			commands.help(message);
 			break;
@@ -95,14 +86,17 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		case 'invite':
 			commands.invite(message);
 			break;
-		case 'joinmsg':
-			commands.joinmsg(message);
+		case 'join':
+			commands.join(message);
 			break;
 		case 'kick':
 			commands.kick(message);
 			break;
-		case 'leavemsg':
-			commands.leavemsg(message);
+		case 'leave':
+			commands.leave(message);
+			break;
+		case 'log':
+			commands.log(message);
 			break;
 		case 'mcskin':
 			commands.mcskin(message);
@@ -110,20 +104,8 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		case 'mcstatus':
 			commands.mcstatus(message);
 			break;
-		case 'memberlog':
-			commands.memberlog(message);
-			break;
-		case 'memberlogstop':
-			commands.memberlogstop(message);
-			break;
 		case 'minvite':
 			commands.botinvite(message);
-			break;
-		case 'msglog':
-			commands.msglog(message);
-			break;
-		case 'msglogstop':
-			commands.msglogstop(message);
 			break;
 		case 'ping':
 			commands.ping(message);
@@ -134,23 +116,11 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		case 'restart':
 			commands.restart(message);
 			break;
-		case 'remrole':
-			commands.remrole(message);
-			break;
-		case 'resdelete':
-			commands.resdelete(message);
-			break;
-		case 'resnow':
-			commands.resnow(message);
-			break;
 		case 'response':
 			commands.response(message);
 			break;
-		case 'rolelog':
-			commands.rolelog(message);
-			break;
-		case 'rolelogstop':
-			commands.rolelogstop(message);
+		case 'role':
+			commands.role(message);
 			break;
 		case 'run':
 			commands.run(message);
