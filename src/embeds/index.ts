@@ -20,7 +20,7 @@ export const embeds = {
 				value: '`join`, `leave`, `response`, `log`'
 			},
 			{ name: 'Minecraft', value: '`mcskin`, `mcstatus`' },
-			{ name: 'Moderation', value: '`ban`, `unban`, `kick`, `role`, `clear`, `timeout`, `untimeout`' },
+			{ name: 'Moderation', value: '`ban`, `unban`, `kick`, `role`, `clear`, `timeout`, `untimeout`' }
 		)
 		.setTimestamp()
 		.setFooter({ text: 'Motcher v2.0', iconURL: 'https://i.imgur.com/fEtyr1I.png' })
