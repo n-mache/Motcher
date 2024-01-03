@@ -11,17 +11,16 @@ export const embeds = {
 			iconURL: 'https://i.imgur.com/fEtyr1I.png',
 			url: 'https://discord.gg/2QnCs2yqWu'
 		})
-		.setDescription('Created By MotiCAT')
+		.setDescription('Created By CatHouse Products')
 		.addFields(
 			{ name: 'Bot', value: '`help`, `about`, `ping`, `status`' },
-			{ name: 'Commands', value: '`server`, `user`, `list`, `invite`, `janken`, `search`' },
+			{ name: 'Commands', value: '`server`, `user`, `list`, `invite`, `search`' },
 			{
 				name: 'Server',
-				value: '`joinmsg`, `leavemsg`, `deletejoin`, `deleteleave`, `response`, `resdelete`, `resnow`'
+				value: '`join`, `leave`, `response`, `log`'
 			},
 			{ name: 'Minecraft', value: '`mcskin`, `mcstatus`' },
-			{ name: 'Moderation', value: '`ban`, `unban`, `kick`, `addrole`, `remrole`, `clear`, `timeout`, `untimeout`' },
-			{ name: 'Logs', value: '`msglog`, `msglogstop`, `rolelog`, `rolelogstop`, `memberlog`, `memberlogstop`' }
+			{ name: 'Moderation', value: '`ban`, `unban`, `kick`, `role`, `clear`, `timeout`, `untimeout`' },
 		)
 		.setTimestamp()
 		.setFooter({ text: 'Motcher v2.0', iconURL: 'https://i.imgur.com/fEtyr1I.png' })
@@ -71,7 +70,7 @@ export const embeds = {
 		.setTitle('addroleコマンド')
 		.setDescription('指定したユーザーに特定のロールを付与するコマンド')
 		.setColor('#0099ff')
-		.addFields({ name: '使い方', value: 'mc!addrole @ユーザー @ロール' })
+		.addFields({ name: '使い方', value: 'mc!role add @ユーザー @ロール' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
 	roleAddSuccess: new Builder()
@@ -220,11 +219,18 @@ export const embeds = {
 		.addFields({ name: '使い方', value: 'mc!poll 題名 選択肢1 選択肢2 選択肢3 ...\n選択肢は6つまで' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
+	roleHelp: new Builder()
+		.setTitle('roleコマンド')
+		.setDescription('指定したユーザーにロールを付与するコマンド')
+		.setColor('#0099ff')
+		.addFields({ name: '使い方', value: 'mc!role `add|remove`' })
+		.setFooter({ text: 'Motcher v2.0' })
+		.build(),
 	remroleHelp: new Builder()
 		.setTitle('remroleコマンド')
 		.setDescription('指定したユーザーからロールを剥奪するコマンド')
 		.setColor('#0099ff')
-		.addFields({ name: '使い方', value: 'mc!remrole @ロール @ユーザー' })
+		.addFields({ name: '使い方', value: 'mc!role remove @ロール @ユーザー' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
 	remrolePermissionError: new Builder()
@@ -301,6 +307,13 @@ export const embeds = {
 		.addFields({ name: 'Success', value: '設定を削除しました。' })
 		.setColor('#0099ff')
 		.build(),
+	joinHelp: new Builder()
+		.setTitle('joinコマンド')
+		.setDescription('参加時のメッセージを設定するコマンド')
+		.setColor('#0099ff')
+		.addFields({ name: '使い方', value: 'mc!join `message|remove`' })
+		.setFooter({ text: 'Motcher v2.0' })
+		.build(),
 	joinmsgHelp: new Builder()
 		.setTitle('joinmsgコマンド')
 		.setDescription('参加時のメッセージを設定するコマンド')
@@ -308,8 +321,15 @@ export const embeds = {
 		.addFields({
 			name: '使い方',
 			value:
-				'mc!joinmsg 送信したいメッセージ\nコマンドを実行したチャンネルに送信されます。\n 送信メッセージに `{user}` を加えると参加ユーザーをメンションします。 '
+				'mc!join message 送信したいメッセージ\nコマンドを実行したチャンネルに送信されます。\n 送信メッセージに `{user}` を加えると参加ユーザーをメンションします。 '
 		})
+		.setFooter({ text: 'Motcher v2.0' })
+		.build(),
+	leaveHelp: new Builder()
+		.setTitle('leaveコマンド')
+		.setDescription('退出時のメッセージを設定するコマンド')
+		.setColor('#0099ff')
+		.addFields({ name: '使い方', value: 'mc!leave `message|remove`' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
 	leavemsgHelp: new Builder()
@@ -319,8 +339,15 @@ export const embeds = {
 		.addFields({
 			name: '使い方',
 			value:
-				'mc!leavemsg 送信したいメッセージ\nコマンドを実行したチャンネルに送信されます。\n 送信メッセージに `{user}` を加えると退出ユーザーをメンションします。 '
+				'mc!leave message 送信したいメッセージ\nコマンドを実行したチャンネルに送信されます。\n 送信メッセージに `{user}` を加えると退出ユーザーをメンションします。 '
 		})
+		.setFooter({ text: 'Motcher v2.0' })
+		.build(),
+	logHelp: new Builder()
+		.setTitle('logコマンド')
+		.setDescription('ログを設定するコマンド')
+		.setColor('#0099ff')
+		.addFields({ name: '使い方', value: 'mc!log (stop) `message|member|role`' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
 	responseHelp: new Builder()
@@ -329,7 +356,27 @@ export const embeds = {
 		.setColor('#0099ff')
 		.addFields({
 			name: '使い方',
-			value: 'mc!response ○○ ××\n○○には反応させたいキーワード、××には応答 を入れてください'
+			value: 'mc!response `add|remove|list`'
+		})
+		.setFooter({ text: 'Motcher v2.0' })
+		.build(),
+	responseAddHelp: new Builder()
+		.setTitle('Addコマンド')
+		.setDescription('キーワードに対して反応する言葉を設定するコマンド')
+		.setColor('#0099ff')
+		.addFields({
+			name: '使い方',
+			value: 'mc!response add キーワード レスポンス\nキーワード、レスポンスには半角スペースを含めることができません。'
+		})
+		.setFooter({ text: 'Motcher v2.0' })
+		.build(),
+	responseRemoveHelp: new Builder()
+		.setTitle('Removeコマンド')
+		.setDescription('キーワードに対して反応する言葉を削除するコマンド')
+		.setColor('#0099ff')
+		.addFields({
+			name: '使い方',
+			value: 'mc!response remove キーワード'
 		})
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
@@ -337,14 +384,6 @@ export const embeds = {
 		.addFields({ name: 'Error', value: 'まだレスポンスが登録されていません。' })
 		.setColor('#ff0000')
 		.build(),
-	resdeleteHelp: new Builder()
-		.setTitle('resdeleteコマンド')
-		.setDescription('指定したレスポンスを削除するコマンド')
-		.setColor('#0099ff')
-		.addFields({ name: '使い方', value: 'mc!resnowで表示された「○○:××」のうちの○○を使い、\nmc!resdelete ○○' })
-		.setFooter({ text: 'Motcher v2.0' })
-		.build(),
-
 	PermissionError: new Builder()
 		.addFields({
 			name: 'Error',

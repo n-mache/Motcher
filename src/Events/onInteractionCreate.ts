@@ -43,9 +43,6 @@ export async function onInteractionCreate(interaction: BaseInteraction): Promise
 		case 'about':
 			interactions.about(interaction);
 			break;
-		case 'addrole':
-			interactions.addrole(interaction);
-			break;
 		case 'avatar':
 			interactions.avatar(interaction);
 			break;
@@ -61,12 +58,6 @@ export async function onInteractionCreate(interaction: BaseInteraction): Promise
 		case 'clear':
 			interactions.clear(interaction);
 			break;
-		case 'deletejoin':
-			interactions.deletejoin(interaction);
-			break;
-		case 'deleteleave':
-			interactions.deleteleave(interaction);
-			break;
 		case 'help':
 			interactions.help(interaction);
 			break;
@@ -76,14 +67,17 @@ export async function onInteractionCreate(interaction: BaseInteraction): Promise
 		case 'invite':
 			interactions.invite(interaction);
 			break;
-		case 'joinmsg':
-			interactions.joinmsg(interaction);
+		case 'join':
+			interactions.join(interaction);
 			break;
 		case 'kick':
 			interactions.kick(interaction);
 			break;
-		case 'leavemsg':
-			interactions.leavemsg(interaction);
+		case 'leave':
+			interactions.leave(interaction);
+			break;
+		case 'log':
+			interactions.log(interaction);
 			break;
 		case 'mcskin':
 			interactions.mcskin(interaction);
@@ -91,38 +85,14 @@ export async function onInteractionCreate(interaction: BaseInteraction): Promise
 		case 'mcstatus':
 			interactions.mcstatus(interaction);
 			break;
-		case 'memberlog':
-			interactions.memberlog(interaction);
-			break;
-		case 'memberlogstop':
-			interactions.memberlogstop(interaction);
-			break;
-		case 'msglog':
-			interactions.msglog(interaction);
-			break;
-		case 'msglogstop':
-			interactions.msglogstop(interaction);
-			break;
 		case 'ping':
 			interactions.ping(interaction);
-			break;
-		case 'remrole':
-			interactions.remrole(interaction);
-			break;
-		case 'resdelete':
-			interactions.resdelete(interaction);
-			break;
-		case 'resnow':
-			interactions.resnow(interaction);
 			break;
 		case 'response':
 			interactions.response(interaction);
 			break;
-		case 'rolelog':
-			interactions.rolelog(interaction);
-			break;
-		case 'rolelogstop':
-			interactions.rolelogstop(interaction);
+		case 'role':
+			interactions.role(interaction);
 			break;
 		case 'search':
 			interactions.search(interaction);
