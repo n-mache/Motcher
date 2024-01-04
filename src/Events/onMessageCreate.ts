@@ -7,7 +7,7 @@ import { readFileSync } from 'fs';
 
 config();
 
-const prefix = 'mt!';
+const prefix = 'mc!';
 
 export async function onMessageCreate(message: Message): Promise<Awaitable<void>> {
 	if (bannedUsers.includes(message.author.id)) return;
