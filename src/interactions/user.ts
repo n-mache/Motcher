@@ -1,8 +1,7 @@
 import { ChatInputCommandInteraction, EmbedBuilder, GuildMember } from 'discord.js';
 
 export async function userCommand(interaction: ChatInputCommandInteraction) {
-	const member =
-		(interaction.options.getMember('member') as GuildMember | undefined) ?? (interaction.member as GuildMember);
+	const member = (interaction.options.getMember('user') as GuildMember) ?? (interaction.member as GuildMember);
 	const createdDate = new Date(member.user.createdAt).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
 	const nickname = member.nickname ?? 'なし';
 	if (!member.joinedAt) return;
