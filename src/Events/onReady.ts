@@ -17,4 +17,17 @@ export function onReady(client: Client) {
 			'MB'
 		// Quote from: https://github.com/Nich87/Faith
 	});
+
+	const activities = ['mc!help Created By CH Products', `${client.guilds.cache.size} Servers | ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)} Users`,];
+
+	let currentActivityIndex = 0;
+
+	setInterval(() => {
+		const nextActivityIndex = (currentActivityIndex + 1) % activities.length;
+		const nextActivity = activities[nextActivityIndex];
+
+		client.user?.setActivity(nextActivity);
+
+		currentActivityIndex = nextActivityIndex;
+	}, 10000);
 }
