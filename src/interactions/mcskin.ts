@@ -2,7 +2,7 @@ import { embeds } from '../embeds';
 import { ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
 
 export async function mcskinCommand(interaction: ChatInputCommandInteraction) {
-	const name = interaction.options.getString('name');
+	const name = interaction.options.getString('user');
 	if (!name) return interaction.reply(embeds.mcskinHelp);
 	const embed = new EmbedBuilder()
 		.setTitle(`${name}のスキン`)
