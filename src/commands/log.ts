@@ -1,9 +1,11 @@
 import { ServerMemberData, ServerMsgData, ServerRoleData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { Message, Guild, TextBasedChannel } from 'discord.js';
+import { Message, Guild, TextBasedChannel, PermissionsBitField } from 'discord.js';
 import { writeFile, readFileSync } from 'fs';
 
 export async function logCommand(message: Message) {
+	if (!message.member?.permissions.has(PermissionsBitField.Flags.ManageChannels))
+		return message.reply(embeds.PermissionError);
 	const args = message.content.split(' ');
 	const subcommand = args[1];
 	switch (subcommand) {

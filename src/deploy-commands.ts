@@ -12,7 +12,8 @@ const commands = [
 	new SlashCommandBuilder()
 		.setName('ban')
 		.setDescription('ユーザーをBANします')
-		.addUserOption((option) => option.setName('member').setDescription('BANするユーザー').setRequired(true)),
+		.addUserOption((option) => option.setName('member').setDescription('BANするユーザー').setRequired(true))
+		.setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers),
 	new SlashCommandBuilder().setName('banlist').setDescription('BANされたユーザーを表示します'),
 	new SlashCommandBuilder()
 		.setName('banner')

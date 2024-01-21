@@ -1,9 +1,11 @@
 import { ServerJoinData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { Message, Guild, TextBasedChannel } from 'discord.js';
+import { Message, Guild, TextBasedChannel, PermissionsBitField } from 'discord.js';
 import { writeFile, readFileSync } from 'fs';
 
 export async function joinCommand(message: Message) {
+	if (!message.member?.permissions.has(PermissionsBitField.Flags.Administrator))
+		return message.reply(embeds.PermissionError);
 	const args = message.content.split(' ');
 	const subcommand = args[1] as string | undefined;
 	switch (subcommand) {
