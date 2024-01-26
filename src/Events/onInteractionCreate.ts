@@ -33,6 +33,13 @@ export async function onInteractionCreate(interaction: BaseInteraction): Promise
 				break;
 		}
 	}
+	if (interaction.isMessageContextMenuCommand()) {
+		switch (interaction.commandName) {
+			case '日本語に翻訳':
+				interactions.translate(interaction);
+				break;
+		}
+	}
 	if (!interaction.isChatInputCommand()) return;
 	if (!interaction.guild) {
 		interaction.reply('このコマンドはDMでは使用できません。');

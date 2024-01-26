@@ -282,6 +282,7 @@ export const embeds = {
 		.addFields({ name: 'Error', value: '指定したユーザーをミュートできませんでした。' })
 		.setColor('#ff0000')
 		.build(),
+	translateError: new Builder().addFields({ name: 'Error', value: '翻訳に失敗しました。' }).setColor('#ff0000').build(),
 	untimeoutHelp: new Builder()
 		.setTitle('untimeoutコマンド')
 		.setDescription('指定したユーザーのミュートを解除するコマンド')

@@ -3,8 +3,11 @@ import { avatarCommand } from './avatar';
 import { banCommand } from './ban';
 import { banlistCommand } from './banlist';
 import { bannerCommand } from './banner';
+import { noCommand } from './button_no';
+import { yesCommand } from './button_yes';
 import { clearCommand } from './clear';
 import { closeticketCommand } from './closeticket';
+import { translateCommand } from './context_translate';
 import { createticketCommand } from './createticket';
 import { helpCommand } from './help';
 import { inlistCommand } from './inlist';
@@ -15,7 +18,6 @@ import { leaveCommand } from './leave';
 import { logCommand } from './log';
 import { mcskinCommand } from './mcskin';
 import { mcstatusCommand } from './mcstatus';
-import { noCommand } from './no';
 import { pingCommand } from './ping';
 import { responseCommand } from './response';
 import { responseComplete } from './response_complete';
@@ -26,7 +28,6 @@ import { statusCommand } from './status';
 import { timeoutCommand } from './timeout';
 import { untimeoutCommand } from './untimeout';
 import { userCommand } from './user';
-import { yesCommand } from './yes';
 
 export const interactions = {
 	help: helpCommand,
@@ -57,5 +58,6 @@ export const interactions = {
 	closeticket: closeticketCommand,
 	yes: yesCommand,
 	no: noCommand,
-	responseComplete: responseComplete
+	responseComplete: responseComplete,
+	translate: translateCommand
 };
