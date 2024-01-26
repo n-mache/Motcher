@@ -40,8 +40,7 @@ export const embeds = {
 			},
 			{
 				name: ':arrow_up:botの歴史',
-				value:
-					'```diff\n+ 2023/05/21 認証\n+ 2023/02/21 v1.0 Release\n- 2023/02/10 暴走\n+ 2022/05/15 Botアカウントの作成\n```'
+				value: '```diff\n+ 2023/05/21 認証\n+ 2023/02/21 v1.0 Release\n- 2023/02/10 暴走\n+ 2022/05/15 Botアカウントの作成\n```'
 			},
 			{
 				name: ':link:関連リンク',
@@ -73,10 +72,7 @@ export const embeds = {
 		.addFields({ name: '使い方', value: 'mc!role add @ユーザー @ロール' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
-	roleAddSuccess: new Builder()
-		.addFields({ name: 'Success', value: 'ロールを付与しました。' })
-		.setColor('#0099ff')
-		.build(),
+	roleAddSuccess: new Builder().addFields({ name: 'Success', value: 'ロールを付与しました。' }).setColor('#0099ff').build(),
 	banHelp: new Builder()
 		.setTitle('banコマンド')
 		.setDescription('指定したメンバーをbanするコマンド')
@@ -91,22 +87,15 @@ export const embeds = {
 		})
 		.setColor('#ff0000')
 		.build(),
-	banSuccess: new Builder()
-		.addFields({ name: 'Success', value: '指定したメンバーをbanしました。' })
-		.setColor('#0099ff')
-		.build(),
+	banSuccess: new Builder().addFields({ name: 'Success', value: '指定したメンバーをbanしました。' }).setColor('#0099ff').build(),
 	banError: new Builder()
 		.addFields({
 			name: 'Error',
-			value:
-				'指定したメンバーをbanできませんでした。\n(自分より順位の高いユーザー、同順位のユーザーの操作ができないDiscordの仕様です。)'
+			value: '指定したメンバーをbanできませんでした。\n(自分より順位の高いユーザー、同順位のユーザーの操作ができないDiscordの仕様です。)'
 		})
 		.setColor('#ff0000')
 		.build(),
-	banlistError: new Builder()
-		.addFields({ name: 'Error', value: 'Banされたユーザーを取得できませんでした。' })
-		.setColor('#ff0000')
-		.build(),
+	banlistError: new Builder().addFields({ name: 'Error', value: 'Banされたユーザーを取得できませんでした。' }).setColor('#ff0000').build(),
 	banlistPermissionError: new Builder()
 		.addFields({
 			name: '権限不足',
@@ -114,10 +103,7 @@ export const embeds = {
 		})
 		.setColor('#ff0000')
 		.build(),
-	bannerInfo: new Builder()
-		.addFields({ name: 'Info', value: '指定したユーザーのバナーが設定されていませんでした。' })
-		.setColor('#0099ff')
-		.build(),
+	bannerInfo: new Builder().addFields({ name: 'Info', value: '指定したユーザーのバナーが設定されていませんでした。' }).setColor('#0099ff').build(),
 	clearHelp: new Builder()
 		.setTitle('clearコマンド')
 		.setDescription('指定したユーザーのメッセージをまとめて削除するコマンド')
@@ -132,14 +118,8 @@ export const embeds = {
 		})
 		.setColor('#ff0000')
 		.build(),
-	clearSuccess: new Builder()
-		.addFields({ name: 'Success', value: '指定したユーザーのメッセージを削除しました。' })
-		.setColor('#0099ff')
-		.build(),
-	clearError: new Builder()
-		.addFields({ name: 'Error', value: '指定したユーザーのメッセージを削除できませんでした。' })
-		.setColor('#ff0000')
-		.build(),
+	clearSuccess: new Builder().addFields({ name: 'Success', value: '指定したユーザーのメッセージを削除しました。' }).setColor('#0099ff').build(),
+	clearError: new Builder().addFields({ name: 'Error', value: '指定したユーザーのメッセージを削除できませんでした。' }).setColor('#ff0000').build(),
 	invitePermissionError: new Builder()
 		.addFields({
 			name: '権限不足',
@@ -147,10 +127,7 @@ export const embeds = {
 		})
 		.setColor('#ff0000')
 		.build(),
-	inviteError: new Builder()
-		.addFields({ name: 'Error', value: '招待リンクの作成に失敗しました。' })
-		.setColor('#ff0000')
-		.build(),
+	inviteError: new Builder().addFields({ name: 'Error', value: '招待リンクの作成に失敗しました。' }).setColor('#ff0000').build(),
 	kickHelp: new Builder()
 		.setTitle('kickコマンド')
 		.setDescription('特定のユーザーをキックするコマンド')
@@ -168,15 +145,11 @@ export const embeds = {
 	kickError: new Builder()
 		.addFields({
 			name: 'Error',
-			value:
-				'指定したユーザーをkickできませんでした。\n(自分より順位の高いユーザー、同順位のユーザーの操作ができないDiscordの仕様です。)'
+			value: '指定したユーザーをkickできませんでした。\n(自分より順位の高いユーザー、同順位のユーザーの操作ができないDiscordの仕様です。)'
 		})
 		.setColor('#ff0000')
 		.build(),
-	kickSuccess: new Builder()
-		.addFields({ name: 'Success', value: '指定したユーザーをkickしました。' })
-		.setColor('#0099ff')
-		.build(),
+	kickSuccess: new Builder().addFields({ name: 'Success', value: '指定したユーザーをkickしました。' }).setColor('#0099ff').build(),
 	mcskinHelp: new Builder()
 		.setTitle('mcskinコマンド')
 		.setDescription('指定したユーザーのマイクラスキンを取得するコマンド')
@@ -240,15 +213,11 @@ export const embeds = {
 		})
 		.setColor('#ff0000')
 		.build(),
-	remroleSuccess: new Builder()
-		.addFields({ name: 'Success', value: 'ロールを剥奪しました。' })
-		.setColor('#0099ff')
-		.build(),
+	remroleSuccess: new Builder().addFields({ name: 'Success', value: 'ロールを剥奪しました。' }).setColor('#0099ff').build(),
 	remroleError: new Builder()
 		.addFields({
 			name: 'エラー',
-			value:
-				'指定されたロールを剥奪できませんでした。\n(自分についているものより順位の高いロール、同順位のロールを操作できないDiscordの仕様です。)'
+			value: '指定されたロールを剥奪できませんでした。\n(自分についているものより順位の高いロール、同順位のロールを操作できないDiscordの仕様です。)'
 		})
 		.setColor('#ff0000')
 		.build(),
@@ -274,15 +243,13 @@ export const embeds = {
 		.addFields({ name: '使い方', value: 'mc!timeout @ユーザー 分数' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
-	timeoutSuccess: new Builder()
-		.addFields({ name: 'Success', value: '指定したユーザーをミュートしました。' })
-		.setColor('#0099ff')
-		.build(),
-	timeoutError: new Builder()
-		.addFields({ name: 'Error', value: '指定したユーザーをミュートできませんでした。' })
+	timeoutSuccess: new Builder().addFields({ name: 'Success', value: '指定したユーザーをミュートしました。' }).setColor('#0099ff').build(),
+	timeoutError: new Builder().addFields({ name: 'Error', value: '指定したユーザーをミュートできませんでした。' }).setColor('#ff0000').build(),
+	translateError: new Builder().addFields({ name: 'Error', value: '翻訳に失敗しました。' }).setColor('#ff0000').build(),
+	translateLimit: new Builder()
+		.addFields({ name: 'Error', value: '一日に翻訳可能な文字数をオーバーしました。\n日付が変わってからお試しください。' })
 		.setColor('#ff0000')
 		.build(),
-	translateError: new Builder().addFields({ name: 'Error', value: '翻訳に失敗しました。' }).setColor('#ff0000').build(),
 	untimeoutHelp: new Builder()
 		.setTitle('untimeoutコマンド')
 		.setDescription('指定したユーザーのミュートを解除するコマンド')
@@ -290,24 +257,12 @@ export const embeds = {
 		.addFields({ name: '使い方', value: 'mc!untimeout @ユーザー' })
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
-	untimeoutSuccess: new Builder()
-		.addFields({ name: 'Success', value: '指定したユーザーのミュートを解除しました。' })
-		.setColor('#0099ff')
-		.build(),
-	untimeoutError: new Builder()
-		.addFields({ name: 'Error', value: '指定したユーザーのミュートを解除できませんでした。' })
-		.setColor('#ff0000')
-		.build(),
-	untimeoutNo: new Builder()
-		.addFields({ name: 'Error', value: '指定したユーザーはミュートされていません。' })
-		.setColor('#ff0000')
-		.build(),
+	untimeoutSuccess: new Builder().addFields({ name: 'Success', value: '指定したユーザーのミュートを解除しました。' }).setColor('#0099ff').build(),
+	untimeoutError: new Builder().addFields({ name: 'Error', value: '指定したユーザーのミュートを解除できませんでした。' }).setColor('#ff0000').build(),
+	untimeoutNo: new Builder().addFields({ name: 'Error', value: '指定したユーザーはミュートされていません。' }).setColor('#ff0000').build(),
 	defaultError: new Builder().addFields({ name: 'Error', value: 'エラーが発生しました。' }).setColor('#ff0000').build(),
 	saveSuccess: new Builder().addFields({ name: 'Success', value: '保存しました。' }).setColor('#0099ff').build(),
-	deleteSuccess: new Builder()
-		.addFields({ name: 'Success', value: '設定を削除しました。' })
-		.setColor('#0099ff')
-		.build(),
+	deleteSuccess: new Builder().addFields({ name: 'Success', value: '設定を削除しました。' }).setColor('#0099ff').build(),
 	joinHelp: new Builder()
 		.setTitle('joinコマンド')
 		.setDescription('参加時のメッセージを設定するコマンド')
@@ -381,10 +336,7 @@ export const embeds = {
 		})
 		.setFooter({ text: 'Motcher v2.0' })
 		.build(),
-	resnowEmpty: new Builder()
-		.addFields({ name: 'Error', value: 'まだレスポンスが登録されていません。' })
-		.setColor('#ff0000')
-		.build(),
+	resnowEmpty: new Builder().addFields({ name: 'Error', value: 'まだレスポンスが登録されていません。' }).setColor('#ff0000').build(),
 	PermissionError: new Builder()
 		.addFields({
 			name: 'Error',

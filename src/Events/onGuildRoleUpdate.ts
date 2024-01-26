@@ -11,10 +11,7 @@ export async function onGuildRoleUpdate(oldRole: Role, newRole: Role) {
 	const serverData = data[serverId];
 	if (!serverData) return;
 	try {
-		const embed = new EmbedBuilder()
-			.setTitle('ロールが更新されました')
-			.setDescription(`${newRole}`)
-			.setColor('#0099ff');
+		const embed = new EmbedBuilder().setTitle('ロールが更新されました').setDescription(`${newRole}`).setColor('#0099ff');
 		const changes = [];
 		if (oldRole.name !== newRole.name) {
 			changes.push(`ロール名: ${oldRole.name} → ${newRole.name}`);

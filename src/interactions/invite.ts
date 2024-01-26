@@ -1,11 +1,5 @@
 import { embeds } from '../embeds';
-import {
-	ChannelType,
-	ChatInputCommandInteraction,
-	GuildMember,
-	PermissionsBitField,
-	TextBasedChannel
-} from 'discord.js';
+import { ChannelType, ChatInputCommandInteraction, GuildMember, PermissionsBitField, TextBasedChannel } from 'discord.js';
 
 export async function inviteCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;

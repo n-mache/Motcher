@@ -7,9 +7,7 @@ export async function onMessageDelete(message: Message | PartialMessage) {
 	if (bannedUsers.includes((message.author as User).id) || bannedServers.includes((message.guild as Guild).id)) return;
 	if (
 		!message.content ||
-		!message.guild?.members.me
-			?.permissionsIn(message.channel as GuildBasedChannel)
-			.has(PermissionsBitField.Flags.SendMessages) ||
+		!message.guild?.members.me?.permissionsIn(message.channel as GuildBasedChannel).has(PermissionsBitField.Flags.SendMessages) ||
 		!message.guild
 	)
 		return;

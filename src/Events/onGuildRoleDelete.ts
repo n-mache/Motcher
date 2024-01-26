@@ -14,10 +14,7 @@ export async function onGuildRoleDelete(role: Role) {
 		const channel = role.guild.channels.cache.get(serverData.channelId);
 		if (channel && channel.isTextBased()) {
 			if (!role.guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.SendMessages)) return;
-			const embed = new EmbedBuilder()
-				.setDescription(`${role.name} ロールが削除されました`)
-				.setTimestamp()
-				.setColor('#0099ff');
+			const embed = new EmbedBuilder().setDescription(`${role.name} ロールが削除されました`).setTimestamp().setColor('#0099ff');
 			channel.send({ embeds: [embed] });
 		}
 	} catch (error) {

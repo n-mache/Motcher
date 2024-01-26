@@ -12,11 +12,7 @@ export function onReady(client: Client) {
 		'Discord.js': version,
 		'Node.js': process.version,
 		Plattform: process.platform + ' | ' + process.arch,
-		Memory:
-			(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) +
-			'MB | ' +
-			(process.memoryUsage().rss / 1024 / 1024).toFixed(2) +
-			'MB'
+		Memory: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + 'MB | ' + (process.memoryUsage().rss / 1024 / 1024).toFixed(2) + 'MB'
 		// Quote from: https://github.com/Nich87/Faith
 	});
 }

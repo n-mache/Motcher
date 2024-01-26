@@ -4,8 +4,7 @@ import { Guild, Message, PermissionsBitField } from 'discord.js';
 import { writeFile, readFileSync } from 'fs';
 
 export async function responseCommand(message: Message) {
-	if (!message.member?.permissions.has(PermissionsBitField.Flags.ManageMessages))
-		return message.reply(embeds.PermissionError);
+	if (!message.member?.permissions.has(PermissionsBitField.Flags.ManageMessages)) return message.reply(embeds.PermissionError);
 	const args = message.content.split(' ');
 	const subcommand = args[1] as string | undefined;
 	switch (subcommand) {
@@ -42,8 +41,7 @@ export async function responseCommand(message: Message) {
 				const data: Record<string, ServerResponseData> = JSON.parse(rawData);
 				const serverData = data[serverId];
 				if (!keyword) return message.reply(embeds.responseRemoveHelp);
-				if (!serverData || !serverData[keyword])
-					return message.reply(`キーワード 「${keyword}」 のレスポンスは登録されていません。`);
+				if (!serverData || !serverData[keyword]) return message.reply(`キーワード 「${keyword}」 のレスポンスは登録されていません。`);
 				delete serverData[keyword];
 
 				writeFile('./database/responses.json', JSON.stringify(data, null, 2), (err) => {

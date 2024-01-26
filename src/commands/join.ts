@@ -4,8 +4,7 @@ import { Message, Guild, TextBasedChannel, PermissionsBitField } from 'discord.j
 import { writeFile, readFileSync } from 'fs';
 
 export async function joinCommand(message: Message) {
-	if (!message.member?.permissions.has(PermissionsBitField.Flags.Administrator))
-		return message.reply(embeds.PermissionError);
+	if (!message.member?.permissions.has(PermissionsBitField.Flags.Administrator)) return message.reply(embeds.PermissionError);
 	const args = message.content.split(' ');
 	const subcommand = args[1] as string | undefined;
 	switch (subcommand) {

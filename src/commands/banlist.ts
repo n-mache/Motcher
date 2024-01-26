@@ -2,8 +2,7 @@ import { embeds } from '../embeds';
 import { Message, PermissionsBitField, EmbedBuilder } from 'discord.js';
 
 export async function banlistCommand(message: Message) {
-	if (!message.guild?.members.me?.permissions.has(PermissionsBitField.Flags.BanMembers))
-		return message.reply(embeds.banlistPermissionError);
+	if (!message.guild?.members.me?.permissions.has(PermissionsBitField.Flags.BanMembers)) return message.reply(embeds.banlistPermissionError);
 	await message.guild.bans
 		.fetch()
 		.then((bans) => {

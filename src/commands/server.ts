@@ -15,9 +15,7 @@ export async function serverCommand(message: Message) {
 					guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size
 				}\nボイスチャンネル数: ${
 					guild.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size
-				}\nカテゴリー数: ${guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size}\n絵文字数: ${
-					guild.emojis.cache.size
-				}`
+				}\nカテゴリー数: ${guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size}\n絵文字数: ${guild.emojis.cache.size}`
 			}
 		)
 		.setThumbnail(guild.iconURL());
