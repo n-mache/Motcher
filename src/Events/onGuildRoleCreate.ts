@@ -14,10 +14,7 @@ export async function onGuildRoleCreate(role: Role) {
 		const channel = role.guild.channels.cache.get(serverData.channelId);
 		if (channel && channel.isTextBased()) {
 			if (!role.guild?.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.SendMessages)) return;
-			const embed = new EmbedBuilder()
-				.setDescription(`新しいロール ${role} が作成されました`)
-				.setTimestamp()
-				.setColor('#0099ff');
+			const embed = new EmbedBuilder().setDescription(`新しいロール ${role} が作成されました`).setTimestamp().setColor('#0099ff');
 			channel.send({ embeds: [embed] });
 		}
 	} catch (error) {

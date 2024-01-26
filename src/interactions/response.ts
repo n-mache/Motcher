@@ -38,8 +38,7 @@ export async function responseCommand(interaction: ChatInputCommandInteraction) 
 				const rawData = readFileSync('./database/responses.json', 'utf-8');
 				const data: Record<string, ServerResponseData> = JSON.parse(rawData);
 				const serverData = data[serverId];
-				if (!serverData || !serverData[keyword])
-					return interaction.reply(`キーワード 「${keyword}」 のレスポンスは登録されていません。`);
+				if (!serverData || !serverData[keyword]) return interaction.reply(`キーワード 「${keyword}」 のレスポンスは登録されていません。`);
 				delete serverData[keyword];
 
 				writeFile('./database/responses.json', JSON.stringify(data, null, 2), (err) => {

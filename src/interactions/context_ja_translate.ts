@@ -2,6 +2,7 @@ import { embeds } from '../embeds';
 import translate from 'deepl';
 import { EmbedBuilder, MessageContextMenuCommandInteraction } from 'discord.js';
 import cron from 'node-cron';
+
 const userJaCounts = new Map<string, number>();
 const maxCharsPerDay = 3000;
 
@@ -12,14 +13,14 @@ cron.schedule('0 0 0 * * *', () => {
 export async function ja_translateCommand(interaction: MessageContextMenuCommandInteraction) {
 	if (!interaction.targetMessage.content) return interaction.reply(embeds.translateError);
 
-    const currentChars = userJaCounts.get(interaction.user.id) || 0;
-    const newChars = currentChars + interaction.targetMessage.content.length;
+	const currentChars = userJaCounts.get(interaction.user.id) || 0;
+	const newChars = currentChars + interaction.targetMessage.content.length;
 
-    if (newChars > maxCharsPerDay) {
-        return interaction.reply(embeds.translateLimit);
-    }
+	if (newChars > maxCharsPerDay) {
+		return interaction.reply(embeds.translateLimit);
+	}
 
-    userJaCounts.set(interaction.user.id, newChars);
+	userJaCounts.set(interaction.user.id, newChars);
 
 	translate({
 		text: interaction.targetMessage.content,

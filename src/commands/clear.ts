@@ -2,10 +2,8 @@ import { embeds } from '../embeds';
 import { ChannelType, Message, PermissionsBitField } from 'discord.js';
 
 export async function clearCommand(message: Message) {
-	if (!message.member?.permissions.has(PermissionsBitField.Flags.ManageMessages))
-		return message.reply(embeds.PermissionError);
-	if (!message.guild?.members.me?.permissions.has(PermissionsBitField.Flags.ManageMessages))
-		return message.reply(embeds.clearPermissionError);
+	if (!message.member?.permissions.has(PermissionsBitField.Flags.ManageMessages)) return message.reply(embeds.PermissionError);
+	if (!message.guild?.members.me?.permissions.has(PermissionsBitField.Flags.ManageMessages)) return message.reply(embeds.clearPermissionError);
 	const member = message.mentions.users.first();
 	const amountString = message.content.split(' ')[2];
 	const amount = Number(amountString);
@@ -21,9 +19,7 @@ export async function clearCommand(message: Message) {
 	message.channel
 		.bulkDelete(userMessages)
 		.then(() => {
-			message.reply(
-				`メッセージ${userMessages.length}件を削除しました\n(指定した数より削除した数が少ない場合があるのはDiscord側の仕様です)`
-			);
+			message.reply(`メッセージ${userMessages.length}件を削除しました\n(指定した数より削除した数が少ない場合があるのはDiscord側の仕様です)`);
 		})
 		.catch(() => {
 			message.reply('メッセージを削除できませんでした。');

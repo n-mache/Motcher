@@ -1,15 +1,5 @@
 import { events } from './Events';
-import {
-	BaseInteraction,
-	Client,
-	GatewayIntentBits,
-	GuildMember,
-	Message,
-	PartialGuildMember,
-	PartialMessage,
-	Partials,
-	Role
-} from 'discord.js';
+import { BaseInteraction, Client, GatewayIntentBits, GuildMember, Message, PartialGuildMember, PartialMessage, Partials, Role } from 'discord.js';
 import { config } from 'dotenv';
 
 config();
@@ -36,15 +26,11 @@ const client = new Client({
 client
 	.on('ready', () => events.onReady(client))
 	.on('messageCreate', async (message: Message) => events.onMessageCreate(message))
-	.on('messageUpdate', async (oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) =>
-		events.onMessageUpdate(oldMessage, newMessage)
-	)
+	.on('messageUpdate', async (oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) => events.onMessageUpdate(oldMessage, newMessage))
 	.on('messageDelete', async (message: Message | PartialMessage) => events.onMessageDelete(message))
 	.on('guildMemberAdd', async (member: GuildMember) => events.onGuildMemberAdd(member))
 	.on('guildMemberRemove', async (member: GuildMember | PartialGuildMember) => events.onGuildMemberRemove(member))
-	.on('guildMemberUpdate', async (oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) =>
-		events.onGuildMemberUpdate(oldMember, newMember)
-	)
+	.on('guildMemberUpdate', async (oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) => events.onGuildMemberUpdate(oldMember, newMember))
 	.on('guildRoleCreate', async (role: Role) => events.onGuildRoleCreate(role))
 	.on('guildRoleUpdate', async (oldRole: Role, newRole: Role) => events.onGuildRoleUpdate(oldRole, newRole))
 	.on('guildRoleDelete', async (role: Role) => events.onGuildRoleDelete(role))

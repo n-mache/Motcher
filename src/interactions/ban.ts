@@ -3,8 +3,7 @@ import { ChatInputCommandInteraction, GuildMember, PermissionsBitField } from 'd
 
 export async function banCommand(interaction: ChatInputCommandInteraction) {
 	if (!(interaction.member instanceof GuildMember)) return;
-	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.BanMembers))
-		return interaction.reply(embeds.banPermissionError);
+	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.BanMembers)) return interaction.reply(embeds.banPermissionError);
 	const member = interaction.options.getMember('member') as GuildMember;
 	if (!member) return interaction.reply(embeds.banHelp);
 	member

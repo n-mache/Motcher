@@ -1,13 +1,4 @@
-import {
-	ButtonInteraction,
-	PermissionsBitField,
-	Guild,
-	ChannelType,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	TextChannel
-} from 'discord.js';
+import { ButtonInteraction, PermissionsBitField, Guild, ChannelType, ActionRowBuilder, ButtonBuilder, ButtonStyle, TextChannel } from 'discord.js';
 
 export async function createticketCommand(interaction: ButtonInteraction) {
 	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.ManageChannels))
@@ -17,9 +8,7 @@ export async function createticketCommand(interaction: ButtonInteraction) {
 		});
 	const guild = interaction.guild as Guild;
 	const existingChannels = guild.channels.cache.filter(
-		(c) =>
-			c.type === ChannelType.GuildText &&
-			c.name === `ticket-${interaction.user.username.replace('#', '').toLowerCase()}`
+		(c) => c.type === ChannelType.GuildText && c.name === `ticket-${interaction.user.username.replace('#', '').toLowerCase()}`
 	);
 	if (existingChannels.size > 0) {
 		return interaction.reply({
@@ -48,10 +37,7 @@ export async function createticketCommand(interaction: ButtonInteraction) {
 				}
 			]
 		});
-		const Closeticket = new ButtonBuilder()
-			.setCustomId('closeticket')
-			.setLabel('Close Ticket')
-			.setStyle(ButtonStyle.Danger);
+		const Closeticket = new ButtonBuilder().setCustomId('closeticket').setLabel('Close Ticket').setStyle(ButtonStyle.Danger);
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(Closeticket);
 		await createdChannel.send({
 			content: `${interaction.user}さん、チケットへようこそ！\nこのチケットを閉じるときは下のボタンを押してください。`,

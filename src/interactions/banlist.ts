@@ -2,8 +2,7 @@ import { embeds } from '../embeds';
 import { ChatInputCommandInteraction, PermissionsBitField, EmbedBuilder } from 'discord.js';
 
 export async function banlistCommand(interaction: ChatInputCommandInteraction) {
-	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.BanMembers))
-		return interaction.reply(embeds.banlistPermissionError);
+	if (!interaction.guild?.members.me?.permissions.has(PermissionsBitField.Flags.BanMembers)) return interaction.reply(embeds.banlistPermissionError);
 	await interaction.guild.bans
 		.fetch()
 		.then((bans) => {

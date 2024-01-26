@@ -1,11 +1,4 @@
-import {
-	ContextMenuCommandBuilder,
-	PermissionsBitField,
-	REST,
-	Routes,
-	SlashCommandBuilder,
-	ApplicationCommandType
-} from 'discord.js';
+import { ContextMenuCommandBuilder, PermissionsBitField, REST, Routes, SlashCommandBuilder, ApplicationCommandType } from 'discord.js';
 import { config } from 'dotenv';
 
 config();
@@ -29,9 +22,7 @@ const commands = [
 	new SlashCommandBuilder()
 		.setName('clear')
 		.setDescription('指定したメンバーのメッセージを削除します')
-		.addUserOption((option) =>
-			option.setName('member').setDescription('メッセージを削除するメンバー').setRequired(true)
-		)
+		.addUserOption((option) => option.setName('member').setDescription('メッセージを削除するメンバー').setRequired(true))
 		.addIntegerOption((option) => option.setName('amount').setDescription('削除するメッセージの数').setRequired(true))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
 	new SlashCommandBuilder()
@@ -70,11 +61,7 @@ const commands = [
 					option
 						.setName('type')
 						.setDescription('削除するログの種類')
-						.addChoices(
-							{ name: 'member', value: 'member' },
-							{ name: 'message', value: 'message' },
-							{ name: 'role', value: 'role' }
-						)
+						.addChoices({ name: 'member', value: 'member' }, { name: 'message', value: 'message' }, { name: 'role', value: 'role' })
 						.setRequired(true)
 				)
 		)
@@ -108,18 +95,14 @@ const commands = [
 			subcommand
 				.setName('add')
 				.setDescription('レスポンスを追加します')
-				.addStringOption((option) =>
-					option.setName('keyword').setDescription('レスポンスのキーワード').setRequired(true)
-				)
+				.addStringOption((option) => option.setName('keyword').setDescription('レスポンスのキーワード').setRequired(true))
 				.addStringOption((option) => option.setName('response').setDescription('レスポンス').setRequired(true))
 		)
 		.addSubcommand((subcommand) =>
 			subcommand
 				.setName('remove')
 				.setDescription('レスポンスを削除します')
-				.addStringOption((option) =>
-					option.setName('keyword').setDescription('レスポンスのキーワード').setRequired(true)
-				)
+				.addStringOption((option) => option.setName('keyword').setDescription('レスポンスのキーワード').setRequired(true))
 		)
 		.addSubcommand((subcommand) => subcommand.setName('list').setDescription('レスポンスの一覧を表示します'))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
@@ -131,18 +114,14 @@ const commands = [
 				.setName('add')
 				.setDescription('ロールを追加します')
 				.addRoleOption((option) => option.setName('role').setDescription('追加するロール').setRequired(true))
-				.addUserOption((option) =>
-					option.setName('member').setDescription('ロールを追加するメンバー').setRequired(true)
-				)
+				.addUserOption((option) => option.setName('member').setDescription('ロールを追加するメンバー').setRequired(true))
 		)
 		.addSubcommand((subcommand) =>
 			subcommand
 				.setName('remove')
 				.setDescription('ロールを削除します')
 				.addRoleOption((option) => option.setName('role').setDescription('削除するロール').setRequired(true))
-				.addUserOption((option) =>
-					option.setName('member').setDescription('ロールを削除するメンバー').setRequired(true)
-				)
+				.addUserOption((option) => option.setName('member').setDescription('ロールを削除するメンバー').setRequired(true))
 		)
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles),
 	new SlashCommandBuilder()
@@ -160,9 +139,7 @@ const commands = [
 	new SlashCommandBuilder()
 		.setName('untimeout')
 		.setDescription('タイムアウトを解除します')
-		.addUserOption((option) =>
-			option.setName('member').setDescription('タイムアウトを解除するメンバー').setRequired(true)
-		)
+		.addUserOption((option) => option.setName('member').setDescription('タイムアウトを解除するメンバー').setRequired(true))
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers),
 	new SlashCommandBuilder()
 		.setName('user')

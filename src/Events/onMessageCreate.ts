@@ -38,9 +38,7 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 	if (
 		message.author.bot ||
 		message.guild?.members.me?.communicationDisabledUntil !== null ||
-		!message.guild.members.me
-			.permissionsIn(message.channel as GuildTextBasedChannel)
-			.has(PermissionsBitField.Flags.SendMessages) ||
+		!message.guild.members.me.permissionsIn(message.channel as GuildTextBasedChannel).has(PermissionsBitField.Flags.SendMessages) ||
 		bannedServers.includes(message.guild.id)
 	)
 		return;
