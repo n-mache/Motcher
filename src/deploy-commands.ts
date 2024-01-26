@@ -1,4 +1,11 @@
-import { PermissionsBitField, REST, Routes, SlashCommandBuilder } from 'discord.js';
+import {
+	ContextMenuCommandBuilder,
+	PermissionsBitField,
+	REST,
+	Routes,
+	SlashCommandBuilder,
+	ApplicationCommandType
+} from 'discord.js';
 import { config } from 'dotenv';
 
 config();
@@ -160,7 +167,8 @@ const commands = [
 	new SlashCommandBuilder()
 		.setName('user')
 		.setDescription('ユーザーの情報を表示します')
-		.addUserOption((option) => option.setName('user').setDescription('ユーザー'))
+		.addUserOption((option) => option.setName('user').setDescription('ユーザー')),
+	new ContextMenuCommandBuilder().setName('日本語に翻訳').setType(ApplicationCommandType.Message)
 ];
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
