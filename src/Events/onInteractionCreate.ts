@@ -36,7 +36,10 @@ export async function onInteractionCreate(interaction: BaseInteraction): Promise
 	if (interaction.isMessageContextMenuCommand()) {
 		switch (interaction.commandName) {
 			case '日本語に翻訳':
-				interactions.translate(interaction);
+				interactions.ja_translate(interaction);
+				break;
+			case '英語に翻訳':
+				interactions.en_translate(interaction);
 				break;
 		}
 	}

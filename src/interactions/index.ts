@@ -7,7 +7,8 @@ import { noCommand } from './button_no';
 import { yesCommand } from './button_yes';
 import { clearCommand } from './clear';
 import { closeticketCommand } from './closeticket';
-import { translateCommand } from './context_translate';
+import { en_translateCommand } from './context_en_translate';
+import { ja_translateCommand } from './context_ja_translate';
 import { createticketCommand } from './createticket';
 import { helpCommand } from './help';
 import { inlistCommand } from './inlist';
@@ -59,5 +60,6 @@ export const interactions = {
 	yes: yesCommand,
 	no: noCommand,
 	responseComplete: responseComplete,
-	translate: translateCommand
+	ja_translate: ja_translateCommand,
+	en_translate: en_translateCommand
 };

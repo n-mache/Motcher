@@ -168,7 +168,8 @@ const commands = [
 		.setName('user')
 		.setDescription('ユーザーの情報を表示します')
 		.addUserOption((option) => option.setName('user').setDescription('ユーザー')),
-	new ContextMenuCommandBuilder().setName('日本語に翻訳').setType(ApplicationCommandType.Message)
+	new ContextMenuCommandBuilder().setName('日本語に翻訳').setType(ApplicationCommandType.Message),
+	new ContextMenuCommandBuilder().setName('英語に翻訳').setType(ApplicationCommandType.Message)
 ];
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
