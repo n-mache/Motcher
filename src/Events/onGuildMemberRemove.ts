@@ -15,7 +15,7 @@ export async function onGuildMemberRemove(member: GuildMember | PartialGuildMemb
 			if (channel && channel.isTextBased()) {
 				if (!member.guild?.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.SendMessages)) return;
 				if (member.user.bot) {
-					channel.send(`${member.user.username}との連携が解除されました`).catch(() => {});
+					channel.send(`${member.user.displayName}との連携が解除されました`).catch(() => {});
 				} else {
 					channel.send(serverData.leaveMessage.replace('{user}', member.user.toString())).catch(console.error);
 				}
