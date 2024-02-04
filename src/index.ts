@@ -12,6 +12,11 @@ cron.schedule('0 0 0 * * *', () => {
 	userEnCounts.clear();
 });
 
+if (!process.env.TOKEN || !process.env.CLIENT_ID || !process.env.OWNER_ID || !process.env.MONGO_URL) {
+	console.error('TOKEN、CLIENT_ID、MONGO_URL、OWNER_IDのいずれかが設定されていません');
+}
+
+export const list: { [key: string]: string[] } = {};
 export const bannedServers = ['1136234915663466496'];
 export const bannedUsers = ['1109315933274640417'];
 

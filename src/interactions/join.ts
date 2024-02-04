@@ -1,47 +1,57 @@
-import { ServerJoinData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { ChatInputCommandInteraction, Guild, TextBasedChannel } from 'discord.js';
-import { writeFile, readFileSync } from 'fs';
+import { list } from '../index';
+import { connect, Database } from 'aurora-mongo';
+import { TextBasedChannel, PermissionsBitField, ChatInputCommandInteraction, GuildMember, Guild } from 'discord.js';
+import { config } from 'dotenv';
+
+config();
 
 export async function joinCommand(interaction: ChatInputCommandInteraction) {
-	const subcommand = interaction.options.getSubcommand(true);
+	if (!(interaction.member instanceof GuildMember)) return;
+	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply(embeds.PermissionError);
+	await connect(process.env.MONGO_URL!);
+	const Join = new Database('Join');
+	list['join'] = await Join.keys();
+
+	const subcommand = interaction.options.getSubcommand();
 	switch (subcommand) {
 		case 'message':
 			{
-				const detail = interaction.options.getString('detail');
-				const channel = interaction.channel as TextBasedChannel;
+				const detail = interaction.options.getString('message');
 				const guild = interaction.guild as Guild;
 				const serverId = guild.id;
+				const channel = interaction.channel as TextBasedChannel;
 				if (!detail) return interaction.reply(embeds.joinmsgHelp);
-				const rawData = readFileSync('./database/join_messages.json', 'utf-8');
-				const data: Record<string, ServerJoinData> = JSON.parse(rawData);
-				data[serverId] = {
-					joinMessage: detail,
-					channelId: channel.id
-				};
-				writeFile('./database/join_messages.json', JSON.stringify(data, null, 2), (err) => {
-					if (err) {
-						interaction.reply(embeds.defaultError);
-					} else {
+				await Join.set(serverId, `${channel.id},${detail}`)
+					.then(async () => {
 						interaction.reply(embeds.saveSuccess);
-					}
-				});
+						list['join'] = await Join.keys();
+					})
+					.catch((err) => {
+						interaction.reply(embeds.defaultError);
+						console.error(err);
+					});
 			}
 			break;
-		case 'remove': {
-			const guild = interaction.guild as Guild;
-			const serverId = guild.id;
-			const rawData = readFileSync('./database/join_messages.json', 'utf-8');
-			const data: Record<string, ServerJoinData> = JSON.parse(rawData);
-			delete data[serverId];
-			writeFile('./database/join_messages.json', JSON.stringify(data, null, 2), (err) => {
-				if (err) {
-					interaction.reply(embeds.defaultError);
-					console.error(err);
-				} else {
-					interaction.reply(embeds.deleteSuccess);
-				}
-			});
-		}
+		case 'remove':
+			{
+				const guild = interaction.guild as Guild;
+				const serverId = guild.id;
+				const data = await Join.get(serverId);
+				if (!data) return interaction.reply(embeds.Empty);
+				await Join.delete(serverId)
+					.then(async () => {
+						interaction.reply(embeds.deleteSuccess);
+						list['join'] = await Join.keys();
+					})
+					.catch((err) => {
+						interaction.reply(embeds.defaultError);
+						console.error(err);
+					});
+			}
+			break;
+		default:
+			interaction.reply(embeds.joinHelp);
+			break;
 	}
 }

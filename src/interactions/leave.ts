@@ -1,47 +1,56 @@
-import { ServerLeaveData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { ChatInputCommandInteraction, Guild, TextBasedChannel } from 'discord.js';
-import { writeFile, readFileSync } from 'fs';
+import { list } from '../index';
+import { connect, Database } from 'aurora-mongo';
+import { TextBasedChannel, PermissionsBitField, ChatInputCommandInteraction, GuildMember, Guild } from 'discord.js';
+import { config } from 'dotenv';
+
+config();
 
 export async function leaveCommand(interaction: ChatInputCommandInteraction) {
-	const subcommand = interaction.options.getSubcommand(true);
+	if (!(interaction.member instanceof GuildMember)) return;
+	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply(embeds.PermissionError);
+	await connect(process.env.MONGO_URL!);
+	const Leave = new Database('Leave');
+	list['leave'] = await Leave.keys();
+	const subcommand = interaction.options.getSubcommand();
 	switch (subcommand) {
 		case 'message':
 			{
-				const detail = interaction.options.getString('detail');
+				const detail = interaction.options.getString('message');
 				const channel = interaction.channel as TextBasedChannel;
 				const guild = interaction.guild as Guild;
 				const serverId = guild.id;
-				if (!detail) return interaction.reply(embeds.leavemsgHelp);
-				const rawData = readFileSync('./database/leave_messages.json', 'utf-8');
-				const data: Record<string, ServerLeaveData> = JSON.parse(rawData);
-				data[serverId] = {
-					leaveMessage: detail,
-					channelId: channel.id
-				};
-				writeFile('./database/leave_messages.json', JSON.stringify(data, null, 2), (err) => {
-					if (err) {
-						interaction.reply(embeds.defaultError);
-					} else {
+				if (!detail) return interaction.reply(embeds.joinmsgHelp);
+				await Leave.set(serverId, `${channel.id},${detail}`)
+					.then(async () => {
 						interaction.reply(embeds.saveSuccess);
-					}
-				});
+						list['leave'] = await Leave.keys();
+					})
+					.catch((err) => {
+						interaction.reply(embeds.defaultError);
+						console.error(err);
+					});
 			}
 			break;
-		case 'remove': {
-			const guild = interaction.guild as Guild;
-			const serverId = guild.id;
-			const rawData = readFileSync('./database/leave_messages.json', 'utf-8');
-			const data: Record<string, ServerLeaveData> = JSON.parse(rawData);
-			delete data[serverId];
-			writeFile('./database/leave_messages.json', JSON.stringify(data, null, 2), (err) => {
-				if (err) {
-					interaction.reply(embeds.defaultError);
-					console.error(err);
-				} else {
-					interaction.reply(embeds.deleteSuccess);
-				}
-			});
-		}
+		case 'remove':
+			{
+				const guild = interaction.guild as Guild;
+				const serverId = guild.id;
+				const data = await Leave.get(serverId);
+				if (!data) return interaction.reply(embeds.Empty);
+				await Leave.delete(serverId)
+					.then(async () => {
+						interaction.reply(embeds.deleteSuccess);
+						list['leave'] = await Leave.keys();
+					})
+					.catch((err) => {
+						interaction.reply(embeds.defaultError);
+						console.error(err);
+					});
+			}
+			break;
+		default:
+			interaction.reply(embeds.joinHelp);
+			break;
 	}
 }

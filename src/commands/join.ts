@@ -1,50 +1,52 @@
-import { ServerJoinData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { Message, Guild, TextBasedChannel, PermissionsBitField } from 'discord.js';
-import { writeFile, readFileSync } from 'fs';
+import { list } from '../index';
+import { connect, Database } from 'aurora-mongo';
+import { Message, TextBasedChannel, PermissionsBitField, Guild } from 'discord.js';
+import { config } from 'dotenv';
+
+config();
 
 export async function joinCommand(message: Message) {
 	if (!message.member?.permissions.has(PermissionsBitField.Flags.Administrator)) return message.reply(embeds.PermissionError);
+	await connect(process.env.MONGO_URL!);
+	const Join = new Database('Join');
+	list['join'] = await Join.keys();
 	const args = message.content.split(' ');
 	const subcommand = args[1] as string | undefined;
 	switch (subcommand) {
 		case 'message':
 			{
 				const detail = args[2];
-				const channel = message.channel as TextBasedChannel;
 				const guild = message.guild as Guild;
 				const serverId = guild.id;
+				const channel = message.channel as TextBasedChannel;
 				if (!detail) return message.reply(embeds.joinmsgHelp);
-				const rawData = readFileSync('./database/join_messages.json', 'utf-8');
-				const data: Record<string, ServerJoinData> = JSON.parse(rawData);
-				data[serverId] = {
-					joinMessage: detail,
-					channelId: channel.id
-				};
-				writeFile('./database/join_messages.json', JSON.stringify(data, null, 2), (err) => {
-					if (err) {
-						message.reply(embeds.defaultError);
-					} else {
+				await Join.set(serverId, `${channel.id},${detail}`)
+					.then(async () => {
 						message.reply(embeds.saveSuccess);
-					}
-				});
+						list['join'] = await Join.keys();
+					})
+					.catch((err) => {
+						message.reply(embeds.defaultError);
+						console.error(err);
+					});
 			}
 			break;
 		case 'remove':
 			{
 				const guild = message.guild as Guild;
 				const serverId = guild.id;
-				const rawData = readFileSync('./database/join_messages.json', 'utf-8');
-				const data: Record<string, ServerJoinData> = JSON.parse(rawData);
-				delete data[serverId];
-				writeFile('./database/join_messages.json', JSON.stringify(data, null, 2), (err) => {
-					if (err) {
+				const data = await Join.get(serverId);
+				if (!data) return message.reply(embeds.Empty);
+				await Join.delete(serverId)
+					.then(async () => {
+						message.reply(embeds.deleteSuccess);
+						list['join'] = await Join.keys();
+					})
+					.catch((err) => {
 						message.reply(embeds.defaultError);
 						console.error(err);
-					} else {
-						message.reply(embeds.deleteSuccess);
-					}
-				});
+					});
 			}
 			break;
 		default:

@@ -1,23 +1,27 @@
-import { ServerRoleData } from '../Utils/ServerData';
-import { bannedServers } from '../index';
+import { bannedServers, list } from '../index';
+import { Database, connect } from 'aurora-mongo';
 import { EmbedBuilder, PermissionsBitField, Role } from 'discord.js';
-import { readFileSync } from 'fs';
+import { config } from 'dotenv';
+
+config();
 
 export async function onGuildRoleDelete(role: Role) {
 	if (bannedServers.includes(role.guild.id)) return;
-	const rawData = readFileSync('./database/rolelogs.json', 'utf-8');
-	const data: Record<string, ServerRoleData> = JSON.parse(rawData);
+	await connect(process.env.MONGO_URL!);
+	const RoleLog = new Database('RoleLog');
+	list['role'] = await RoleLog.keys();
 	const serverId = role.guild.id;
-	const serverData = data[serverId];
-	if (!serverData) return;
-	try {
-		const channel = role.guild.channels.cache.get(serverData.channelId);
-		if (channel && channel.isTextBased()) {
-			if (!role.guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.SendMessages)) return;
-			const embed = new EmbedBuilder().setDescription(`${role.name} ロールが削除されました`).setTimestamp().setColor('#0099ff');
-			channel.send({ embeds: [embed] });
+	if (list['role'].includes(serverId)) {
+		try {
+			const data = (await RoleLog.get(serverId)) as string;
+			const channel = role.guild.channels.cache.get(data);
+			if (channel && channel.isTextBased()) {
+				if (!role.guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.SendMessages)) return;
+				const embed = new EmbedBuilder().setDescription(`${role.name} ロールが削除されました`).setTimestamp().setColor('#0099ff');
+				channel.send({ embeds: [embed] });
+			}
+		} catch (error) {
+			console.error(error);
 		}
-	} catch (error) {
-		console.error(error);
 	}
 }
