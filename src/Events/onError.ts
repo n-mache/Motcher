@@ -6,10 +6,10 @@ export async function onError(client: Client, error: Error) {
 		.setColor('#ff0000')
 		.setDescription('```js\n' + error.stack + '```')
 		.setTimestamp();
-	const channel = await client.channels.fetch('1148074614908526594');
+	const channel = await client.channels.fetch(process.env.ERROR_CHANNEL);
 	if (!channel?.isTextBased()) return;
 	channel?.send({
-		content: '<@895050958441160734>',
+		content: `<@${process.env.OWNER_ID}>`,
 		embeds: [err]
 	});
 }
