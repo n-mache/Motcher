@@ -6,7 +6,7 @@ export async function onError(client: Client, error: Error) {
 		.setColor('#ff0000')
 		.setDescription('```js\n' + error.stack + '```')
 		.setTimestamp();
-	const channel = await client.channels.fetch(process.env.ERROR_CHANNEL);
+	const channel = await client.channels.fetch(process.env.DEBUG_CHANNEL);
 	if (!channel?.isTextBased()) return;
 	channel?.send({
 		content: `<@${process.env.OWNER_ID}>`,
