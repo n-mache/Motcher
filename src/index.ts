@@ -12,8 +12,8 @@ cron.schedule('0 0 0 * * *', () => {
 	userEnCounts.clear();
 });
 
-if (!process.env.TOKEN || !process.env.CLIENT_ID || !process.env.OWNER_ID || !process.env.MONGO_URL) {
-	console.error('TOKEN、CLIENT_ID、MONGO_URL、OWNER_IDのいずれかが設定されていません');
+if (!process.env.TOKEN || !process.env.CLIENT_ID || !process.env.OWNER_ID || !process.env.MONGO_URL || !process.env.ERROR_CHANNEL) {
+	console.error('TOKEN、CLIENT_ID、MONGO_URL、OWNER_ID、ERROR_CHANNELのいずれかが設定されていません');
 }
 
 export const list: { [key: string]: string[] } = {};
