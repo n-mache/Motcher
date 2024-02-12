@@ -1,17 +1,20 @@
-import { ServerMemberData } from '../Utils/ServerData';
-import { bannedServers, bannedUsers } from '../index';
+import { bannedServers, bannedUsers, list } from '../index';
+import { connect, Database } from 'aurora-mongo';
 import { EmbedBuilder, GuildMember, PartialGuildMember, PermissionsBitField } from 'discord.js';
-import { readFileSync } from 'fs';
+import { config } from 'dotenv';
+
+config();
 
 export async function onGuildMemberUpdate(oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) {
 	if (bannedUsers.includes(newMember.user.id) || bannedServers.includes(newMember.guild?.id)) return;
+	await connect(process.env.MONGO_URL!);
+	const MemberLog = new Database('MemberLog');
+	list['member'] = await MemberLog.keys();
 	const serverId = oldMember.guild.id;
-	const logRawData = readFileSync('./database/memberlogs.json', 'utf-8');
-	const logdata: Record<string, ServerMemberData> = JSON.parse(logRawData);
-	const serverlogData = logdata[serverId];
-	if (serverlogData) {
+	if (list['join'].includes(serverId)) {
 		try {
-			const channel = oldMember.guild.channels.cache.get(serverlogData.channelId);
+			const MemberLogData = (await MemberLog.get(serverId)) as string;
+			const channel = oldMember.guild.channels.cache.get(MemberLogData);
 			if (channel && channel.isTextBased()) {
 				if (!oldMember.guild?.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.SendMessages)) return;
 				if (oldMember.nickname !== newMember.nickname) {

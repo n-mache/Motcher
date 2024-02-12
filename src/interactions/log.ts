@@ -1,9 +1,21 @@
-import { ServerMemberData, ServerMsgData, ServerRoleData } from '../Utils/ServerData';
 import { embeds } from '../embeds';
-import { ChatInputCommandInteraction, Guild, TextBasedChannel } from 'discord.js';
-import { writeFile, readFileSync } from 'fs';
+import { list } from '../index';
+import { connect, Database } from 'aurora-mongo';
+import { ChatInputCommandInteraction, Guild, GuildMember, PermissionsBitField, TextBasedChannel } from 'discord.js';
+import { config } from 'dotenv';
+
+config();
 
 export async function logCommand(interaction: ChatInputCommandInteraction) {
+	if (!(interaction.member instanceof GuildMember)) return;
+	if (!interaction.member?.permissions.has(PermissionsBitField.Flags.ManageChannels)) return interaction.reply(embeds.PermissionError);
+	await connect(process.env.MONGO_URL!);
+	const MessageLog = new Database('MessageLog');
+	const MemberLog = new Database('MemberLog');
+	const RoleLog = new Database('RoleLog');
+	list['message'] = await MessageLog.keys();
+	list['member'] = await MemberLog.keys();
+	list['role'] = await RoleLog.keys();
 	const subcommand = interaction.options.getSubcommand();
 	switch (subcommand) {
 		case 'member':
@@ -11,19 +23,15 @@ export async function logCommand(interaction: ChatInputCommandInteraction) {
 				const channel = interaction.channel as TextBasedChannel;
 				const guild = interaction.guild as Guild;
 				const serverId = guild.id;
-				const rawData = readFileSync('./database/memberlogs.json', 'utf-8');
-				const data: Record<string, ServerMemberData> = JSON.parse(rawData);
-				data[serverId] = {
-					channelId: channel.id
-				};
-				writeFile('./database/memberlogs.json', JSON.stringify(data, null, 2), (err) => {
-					if (err) {
+				await MemberLog.set(serverId, channel.id)
+					.then(async () => {
+						list['member'] = await MemberLog.keys();
+						interaction.reply(embeds.saveSuccess);
+					})
+					.catch((err) => {
 						interaction.reply(embeds.defaultError);
 						console.error(err);
-					} else {
-						interaction.reply(embeds.saveSuccess);
-					}
-				});
+					});
 			}
 			break;
 		case 'message':
@@ -31,18 +39,15 @@ export async function logCommand(interaction: ChatInputCommandInteraction) {
 				const channel = interaction.channel as TextBasedChannel;
 				const guild = interaction.guild as Guild;
 				const serverId = guild.id;
-				const rawData = readFileSync('./database/msglogs.json', 'utf-8');
-				const data: Record<string, ServerMsgData> = JSON.parse(rawData);
-				data[serverId] = {
-					channelId: channel.id
-				};
-				writeFile('./database/msglogs.json', JSON.stringify(data, null, 2), (err) => {
-					if (err) {
-						interaction.reply(embeds.defaultError);
-					} else {
+				await MessageLog.set(serverId, channel.id)
+					.then(async () => {
+						list['message'] = await MessageLog.keys();
 						interaction.reply(embeds.saveSuccess);
-					}
-				});
+					})
+					.catch((err) => {
+						interaction.reply(embeds.defaultError);
+						console.error(err);
+					});
 			}
 			break;
 		case 'role':
@@ -50,76 +55,76 @@ export async function logCommand(interaction: ChatInputCommandInteraction) {
 				const channel = interaction.channel as TextBasedChannel;
 				const guild = interaction.guild as Guild;
 				const serverId = guild.id;
-				const rawData = readFileSync('./database/rolelogs.json', 'utf-8');
-				const data: Record<string, ServerRoleData> = JSON.parse(rawData);
-				data[serverId] = {
-					channelId: channel.id
-				};
-				writeFile('./database/rolelogs.json', JSON.stringify(data, null, 2), (err) => {
-					if (err) {
+				await RoleLog.set(serverId, channel.id)
+					.then(async () => {
+						list['role'] = await RoleLog.keys();
+						interaction.reply(embeds.saveSuccess);
+					})
+					.catch((err) => {
 						interaction.reply(embeds.defaultError);
 						console.error(err);
-					} else {
-						interaction.reply(embeds.saveSuccess);
-					}
-				});
+					});
 			}
 			break;
 		case 'stop': {
-			const types = interaction.options.getString('type', true);
+			const types = interaction.options.getString('type');
 			switch (types) {
 				case 'member':
 					{
 						const guild = interaction.guild as Guild;
 						const serverId = guild.id;
-						const rawData = readFileSync('./database/memberlogs.json', 'utf-8');
-						const data: Record<string, ServerMemberData> = JSON.parse(rawData);
-						delete data[serverId];
-						writeFile('./database/memberlogs.json', JSON.stringify(data, null, 2), (err) => {
-							if (err) {
+						const data = await MemberLog.get(serverId);
+						if (!data) return interaction.reply(embeds.Empty);
+						await MemberLog.delete(serverId)
+							.then(async () => {
+								list['member'] = await MemberLog.keys();
+								interaction.reply(embeds.deleteSuccess);
+							})
+							.catch((err) => {
 								interaction.reply(embeds.defaultError);
 								console.error(err);
-							} else {
-								interaction.reply(embeds.saveSuccess);
-							}
-						});
+							});
 					}
 					break;
 				case 'message':
 					{
 						const guild = interaction.guild as Guild;
 						const serverId = guild.id;
-						const rawData = readFileSync('./database/msglogs.json', 'utf-8');
-						const data: Record<string, ServerMsgData> = JSON.parse(rawData);
-						delete data[serverId];
-						writeFile('./database/msglogs.json', JSON.stringify(data, null, 2), (err) => {
-							if (err) {
+						const data = await MessageLog.get(serverId);
+						if (!data) return interaction.reply(embeds.Empty);
+						await MessageLog.delete(serverId)
+							.then(async () => {
+								list['message'] = await MessageLog.keys();
+								interaction.reply(embeds.deleteSuccess);
+							})
+							.catch((err) => {
 								interaction.reply(embeds.defaultError);
-							} else {
-								interaction.reply(embeds.saveSuccess);
-							}
-						});
+								console.error(err);
+							});
 					}
 					break;
 				case 'role':
 					{
 						const guild = interaction.guild as Guild;
 						const serverId = guild.id;
-						const rawData = readFileSync('./database/rolelogs.json', 'utf-8');
-						const data: Record<string, ServerRoleData> = JSON.parse(rawData);
-						delete data[serverId];
-						writeFile('./database/rolelogs.json', JSON.stringify(data, null, 2), (err) => {
-							if (err) {
+						const data = await RoleLog.get(serverId);
+						if (!data) return interaction.reply(embeds.Empty);
+						await RoleLog.delete(serverId)
+							.then(async () => {
+								list['role'] = await RoleLog.keys();
+								interaction.reply(embeds.deleteSuccess);
+							})
+							.catch((err) => {
 								interaction.reply(embeds.defaultError);
 								console.error(err);
-							} else {
-								interaction.reply(embeds.saveSuccess);
-							}
-						});
+							});
 					}
 					break;
 			}
 			break;
 		}
+		default:
+			interaction.reply(embeds.logHelp);
+			break;
 	}
 }

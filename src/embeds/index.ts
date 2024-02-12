@@ -343,5 +343,6 @@ export const embeds = {
 			value: 'このコマンドを使用する権限がありません。'
 		})
 		.setColor('#ff0000')
-		.build()
+		.build(),
+	Empty: new Builder().addFields({ name: 'Info', value: '設定されていません。' }).setColor('Yellow').build()
 };

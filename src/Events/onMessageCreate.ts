@@ -1,13 +1,12 @@
-import { ServerResponseData } from '../Utils/ServerData';
 import { commands } from '../commands';
-import { bannedUsers, bannedServers } from '../index';
-import { Message, PermissionsBitField, Awaitable, GuildTextBasedChannel } from 'discord.js';
+import { bannedUsers, bannedServers, list } from '../index';
+import { connect, Database } from 'aurora-mongo';
+import { Message, PermissionsBitField, Awaitable, GuildTextBasedChannel, Guild } from 'discord.js';
 import { config } from 'dotenv';
-import { readFileSync } from 'fs';
 
 config();
 
-const prefix = 'mc!';
+const prefix = 'mt!';
 
 export async function onMessageCreate(message: Message): Promise<Awaitable<void>> {
 	if (bannedUsers.includes(message.author.id)) return;
@@ -42,15 +41,21 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		bannedServers.includes(message.guild.id)
 	)
 		return;
-	const rawData = readFileSync('./database/responses.json', 'utf-8');
-	const data: Record<string, ServerResponseData> = JSON.parse(rawData);
-	const serverData = data[message.guild.id];
-	if (serverData) {
-		for (const keyword in serverData) {
-			if (message.content.includes(keyword)) {
-				const response = serverData[keyword];
-				message.channel.send(response);
-			}
+	await connect(process.env.MONGO_URL!);
+	const Response = new Database('Response');
+	list['response'] = await Response.keys();
+	const matchingKeys = list['response'].filter((key) => key.split(',')[0] === (message.guild as Guild).id);
+	const serverData: { [key: string]: string } = {};
+	await Promise.all(
+		matchingKeys.map(async (key) => {
+			const value = await Response.get(key);
+			serverData[key] = value;
+		})
+	);
+	for (const key in serverData) {
+		if (message.content.includes(key.split(',')[1])) {
+			const response = serverData[key];
+			message.channel.send(response);
 		}
 	}
 	if (!message.content.startsWith(prefix)) return;

@@ -1,9 +1,22 @@
 import { events } from './Events';
 import { BaseInteraction, Client, GatewayIntentBits, GuildMember, Message, PartialGuildMember, PartialMessage, Partials, Role } from 'discord.js';
 import { config } from 'dotenv';
+import cron from 'node-cron';
+import { userJaCounts } from './interactions/context_ja_translate';
+import { userEnCounts } from './interactions/context_en_translate';
 
 config();
 
+cron.schedule('0 0 0 * * *', () => {
+	userJaCounts.clear();
+	userEnCounts.clear();
+});
+
+if (!process.env.TOKEN || !process.env.CLIENT_ID || !process.env.OWNER_ID || !process.env.MONGO_URL) {
+	console.error('TOKEN、CLIENT_ID、MONGO_URL、OWNER_IDのいずれかが設定されていません');
+}
+
+export const list: { [key: string]: string[] } = {};
 export const bannedServers = ['1136234915663466496'];
 export const bannedUsers = ['1109315933274640417'];
 

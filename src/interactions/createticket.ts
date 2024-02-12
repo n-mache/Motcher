@@ -34,6 +34,15 @@ export async function createticketCommand(interaction: ButtonInteraction) {
 				{
 					id: interaction.guild.roles.everyone,
 					deny: [PermissionsBitField.Flags.ViewChannel]
+				},
+				{
+					id: interaction.client.user.id,
+					allow: [
+						PermissionsBitField.Flags.ViewChannel,
+						PermissionsBitField.Flags.SendMessages,
+						PermissionsBitField.Flags.AttachFiles,
+						PermissionsBitField.Flags.ReadMessageHistory
+					]
 				}
 			]
 		});
