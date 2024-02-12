@@ -153,7 +153,7 @@ const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
 
 (async () => {
 	try {
-		await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), { body: commands });
+		await rest.put(Routes.applicationCommands(atob(process.env.DISCORD_TOKEN.split(".")[0])!), { body: commands });
 
 		console.log('Successfully registered application commands.');
 	} catch (error) {
