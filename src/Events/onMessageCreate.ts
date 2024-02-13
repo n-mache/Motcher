@@ -53,7 +53,15 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		})
 	);
 	for (const key in serverData) {
-		if (message.content.includes(key.split(',')[1])) {
+		const regex_matched = false;
+		try {
+			if (key.split(',')[1].startsWith('r/') && key.split(',')[1].endsWith('/')) {
+				if (message.content.match(key.split(',')[1].replace('r','')) !== null) {
+					regex_matched = true;
+				}
+			}
+		}
+		if (message.content.includes(key.split(',')[1]) || regex_matched) {
 			const response = serverData[key];
 			message.channel.send(response);
 		}
@@ -61,96 +69,9 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 	if (!message.content.startsWith(prefix)) return;
 	const args = message.content.slice(prefix.length).trim().split(/ +/) as string[];
 	const commandName = args.shift()?.toLowerCase();
-	switch (commandName) {
-		case 'about':
-			commands.about(message);
-			break;
-		case 'avatar':
-			commands.avatar(message);
-			break;
-		case 'ban':
-			commands.ban(message);
-			break;
-		case 'banlist':
-			commands.banlist(message);
-			break;
-		case 'banner':
-			commands.banner(message);
-			break;
-		case 'clear':
-			commands.clear(message);
-			break;
-		case 'help':
-			commands.help(message);
-			break;
-		case 'inlist':
-			commands.inlist(message);
-			break;
-		case 'invite':
-			commands.invite(message);
-			break;
-		case 'join':
-			commands.join(message);
-			break;
-		case 'kick':
-			commands.kick(message);
-			break;
-		case 'leave':
-			commands.leave(message);
-			break;
-		case 'log':
-			commands.log(message);
-			break;
-		case 'mcskin':
-			commands.mcskin(message);
-			break;
-		case 'mcstatus':
-			commands.mcstatus(message);
-			break;
-		case 'minvite':
-			commands.botinvite(message);
-			break;
-		case 'ping':
-			commands.ping(message);
-			break;
-		case 'poll':
-			commands.poll(message);
-			break;
-		case 'restart':
-			commands.restart(message);
-			break;
-		case 'response':
-			commands.response(message);
-			break;
-		case 'role':
-			commands.role(message);
-			break;
-		case 'run':
-			commands.run(message);
-			break;
-		case 'script':
-			commands.script(message);
-			break;
-		case 'search':
-			commands.search(message);
-			break;
-		case 'server':
-			commands.server(message);
-			break;
-		case 'status':
-			commands.status(message);
-			break;
-		case 'timeout':
-			commands.timeout(message);
-			break;
-		case 'untimeout':
-			commands.untimeout(message);
-			break;
-		case 'user':
-			commands.user(message);
-			break;
-		default:
-			message.reply('存在しないコマンドです。');
-			break;
+	if (commands[commandName] !== undefined){
+	    	commands[commandName](message);
+	}else{
+    		message.reply('存在しないコマンドです。');
 	}
 }
