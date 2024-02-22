@@ -53,12 +53,10 @@ export async function onMessageCreate(message: Message): Promise<Awaitable<void>
 		})
 	);
 	for (const key in serverData) {
-		const regex_matched = false;
+		let regex_matched = false;
 		try {
-			if (key.split(',')[1].startsWith('r/') && key.split(',')[1].endsWith('/')) {
-				if (message.content.match(key.split(',')[1].replace('r','')) !== null) {
-					regex_matched = true;
-				}
+			if (key.split(',')[1].startsWith('r/') && key.split(',')[1].endsWith('/') && message.content.match(key.split(',')[1].replace('r','')) !== null) {
+				regex_matched = true;
 			}
 		}
 		if (message.content.includes(key.split(',')[1]) || regex_matched) {
